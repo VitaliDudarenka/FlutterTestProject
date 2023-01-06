@@ -20,24 +20,46 @@ class CatalogWidgetState extends State<CatalogWidget> {
   Product product = Product("ТУРРОН БИТС", "АРТ-505467", "Нежнейший десерт",
       "Подвал", "Мороженое", 7, 3, 8, 6.25, "assets/images/ice_cream.jpg");
 
+  int count = 1;
+
+  void addCounter() {
+    setState(() {
+      if (count < product.allCount) {
+        count++;
+      }
+    });
+  }
+
+  void removeCounter() {
+    setState(() {
+      if (count > 0) {
+        count--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: <Widget>[
-          Image.asset(
-            "assets/images/ice_cream.jpg",
-            fit: BoxFit.fitWidth,
+    return CounterDataProvider(
+        count: count,
+        childWidget: SizedBox.expand(
+          child: Stack(
             alignment: Alignment.topCenter,
+            children: <Widget>[
+              Image.asset(
+                "assets/images/ice_cream.jpg",
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.topCenter,
+              ),
+              Container(
+                  padding: EdgeInsets.only(
+                      top: (headerHeight - Dimensions.corner).toDouble()),
+                  child: ProductCardWidget(product: product)),
+            ],
           ),
-          Container(
-              padding: EdgeInsets.only(
-                  top: (headerHeight - Dimensions.corner).toDouble()),
-              child: ProductCardWidget(product: product)),
-        ],
-      ),
-    );
+        ),
+        addCounter: addCounter,
+        removeCounter: removeCounter);
   }
 }
 
@@ -54,12 +76,13 @@ class ProductCardWidget extends StatefulWidget {
 
 class _ProductCardWidgetState extends State<ProductCardWidget> {
   Product? product;
-  int _count = 1;
 
   _ProductCardWidgetState(this.product);
 
   @override
   Widget build(BuildContext context) {
+    final counterDataProvider = CounterDataProvider.of(context);
+
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
       decoration: const BoxDecoration(
@@ -95,7 +118,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   style: const TextStyle(
                       color: CustomColors.textBlue,
                       fontSize: Dimensions.fontSmall)),
-              Text("${product!.allCount - _count} ${Strings.items}"),
+              Text(
+                  "${product!.allCount - counterDataProvider!.count} ${Strings.items}"),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -114,9 +138,13 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Counter(callback: (val) => setState(() => _count = val), maxValue: product!.allCount),
+              CounterPicker(
+                value: counterDataProvider.count,
+                addCounter: counterDataProvider.addCounter,
+                removeCounter: counterDataProvider.removeCounter,
+              ),
               const SizedBox(height: 10),
-              Text("USD ${product!.price * _count}",
+              Text("USD ${product!.price * counterDataProvider.count}",
                   style: const TextStyle(fontWeight: FontWeight.w700))
             ],
           ),
@@ -173,45 +201,40 @@ class _AmountWidgetState extends State<AmountWidget> {
   }
 }
 
-typedef void CountCallback(int val);
+class CounterDataProvider extends InheritedWidget {
+  final int count;
+  final Widget childWidget;
+  final VoidCallback addCounter;
+  final VoidCallback removeCounter;
 
-class Counter extends StatefulWidget {
-  final CountCallback callback;
-  int increment = 1;
-  final int maxValue;
+  const CounterDataProvider(
+      {Key? key,
+      required this.count,
+      required this.childWidget,
+      required this.addCounter,
+      required this.removeCounter})
+      : super(key: key, child: childWidget);
 
-  Counter({super.key, required this.callback, required this.maxValue});
+  static CounterDataProvider? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<CounterDataProvider>();
+  }
 
   @override
-  _CounterState createState() => _CounterState(callback, maxValue);
+  bool updateShouldNotify(covariant CounterDataProvider oldWidget) {
+    return oldWidget.count != count;
+  }
 }
 
-class _CounterState extends State<Counter> {
-  int value = 1;
-  int maxValue;
-  late CountCallback callback;
+class CounterPicker extends StatelessWidget {
+  int value;
+  final VoidCallback addCounter;
+  final VoidCallback removeCounter;
 
-  _CounterState(this.callback, this.maxValue);
-
-  increaseValue() {
-    setState(() {
-      if (value == maxValue) {
-        return;
-      }
-      value = value + widget.increment;
-      callback(value);
-    });
-  }
-
-  decreaseValue() {
-    setState(() {
-      if (value == 0) {
-        return;
-      }
-      value = value - widget.increment;
-      callback(value);
-    });
-  }
+  CounterPicker(
+      {super.key,
+        required this.value,
+        required this.addCounter,
+        required this.removeCounter});
 
   @override
   Widget build(BuildContext context) {
@@ -220,10 +243,10 @@ class _CounterState extends State<Counter> {
           width: 20,
           height: 20,
           child: ElevatedButton(
-            onPressed: decreaseValue,
+            onPressed: removeCounter,
             style: ElevatedButton.styleFrom(
                 backgroundColor: CustomColors.blueLight,
-                padding: EdgeInsets.all(0)),
+                padding: const EdgeInsets.all(0)),
             child: const Text(
               "-",
               style: TextStyle(color: CustomColors.textBlue),
@@ -236,10 +259,10 @@ class _CounterState extends State<Counter> {
           width: 20,
           height: 20,
           child: ElevatedButton(
-            onPressed: increaseValue,
+            onPressed: addCounter,
             style: ElevatedButton.styleFrom(
                 backgroundColor: CustomColors.textBlue,
-                padding: EdgeInsets.all(0)),
+                padding: const EdgeInsets.all(0)),
             child: const Text(
               "+",
               style: TextStyle(color: Colors.white),
