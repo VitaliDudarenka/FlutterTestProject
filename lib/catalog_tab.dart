@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_flutter_project/counter_bloc.dart';
 import 'package:test_flutter_project/counter_cubit.dart';
 import 'package:test_flutter_project/resources/dimens.dart';
 import 'package:test_flutter_project/resources/strings.dart';
@@ -76,8 +77,17 @@ class ProductCardWidget extends StatefulWidget {
 
 class _ProductCardWidgetState extends State<ProductCardWidget> {
   Product? product;
+  CounterBloc? _bloc;
 
-  _ProductCardWidgetState(this.product);
+  _ProductCardWidgetState(this.product) {
+    _bloc = CounterBloc(product!.allCount);
+  }
+
+  @override
+  void dispose() {
+    _bloc!.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,9 +126,12 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   style: const TextStyle(
                       color: CustomColors.textBlue,
                       fontSize: Dimensions.fontSmall)),
-              BlocBuilder<CounterCubit, int>(
-                builder: (context, state) {
-                  return Text("${product!.allCount - state} ${Strings.items}");
+              StreamBuilder(
+                stream: _bloc!.outputStateStream,
+                initialData: 0,
+                builder: (context, snapshot) {
+                  return Text(
+                      "${product!.allCount - snapshot.data!.toInt()} ${Strings.items}");
                 },
               ),
               const SizedBox(height: 8),
@@ -139,14 +152,30 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              CounterPicker(),
-              const SizedBox(height: 10),
-              BlocBuilder<CounterCubit, int>(
-                builder: (context, state) {
-                  return Text("USD ${product!.price * state}",
-                      style: const TextStyle(fontWeight: FontWeight.w700));
+              StreamBuilder(
+                stream: _bloc!.outputStateStream,
+                initialData: 0,
+                builder: (context, snapshot) {
+                  return CounterPicker(
+                    value: snapshot.data!.toInt(),
+                    addCounter: () {
+                      _bloc!.inputEventSink.add(CounterEvent.increment);
+                    },
+                    removeCounter: () {
+                      _bloc!.inputEventSink.add(CounterEvent.decrement);
+                    },
+                  );
                 },
               ),
+              const SizedBox(height: 10),
+              StreamBuilder(
+                  stream: _bloc!.outputStateStream,
+                  initialData: 0,
+                  builder: (context, snapshot) {
+                    return Text(
+                        "USD ${product!.price * snapshot.data!.toInt()}",
+                        style: const TextStyle(fontWeight: FontWeight.w700));
+                  }),
             ],
           ),
         ],
@@ -227,6 +256,15 @@ class CounterDataProvider extends InheritedWidget {
 }
 
 class CounterPicker extends StatelessWidget {
+  int value;
+  final VoidCallback addCounter;
+  final VoidCallback removeCounter;
+
+  CounterPicker(
+      {super.key,
+      required this.value,
+      required this.addCounter,
+      required this.removeCounter});
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +273,7 @@ class CounterPicker extends StatelessWidget {
           width: 20,
           height: 20,
           child: ElevatedButton(
-            onPressed: () => context.read<CounterCubit>().decrement(),
+            onPressed: removeCounter,
             style: ElevatedButton.styleFrom(
                 backgroundColor: CustomColors.blueLight,
                 padding: const EdgeInsets.all(0)),
@@ -245,17 +283,13 @@ class CounterPicker extends StatelessWidget {
             ),
           )),
       const SizedBox(width: 4),
-      BlocBuilder<CounterCubit, int>(
-        builder: (context, state) {
-          return Text(state.toString());
-        },
-      ),
+      Text(value.toString()),
       const SizedBox(width: 4),
       SizedBox(
           width: 20,
           height: 20,
           child: ElevatedButton(
-            onPressed: () => context.read<CounterCubit>().increment(),
+            onPressed: addCounter,
             style: ElevatedButton.styleFrom(
                 backgroundColor: CustomColors.textBlue,
                 padding: const EdgeInsets.all(0)),
