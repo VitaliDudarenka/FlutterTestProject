@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:test_flutter_project/BodyWidget.dart';
-import 'package:test_flutter_project/User.dart';
 import 'package:test_flutter_project/catalog_tab.dart';
-import 'package:test_flutter_project/resources/strings.dart';
 import 'package:test_flutter_project/resources/colors.dart';
+import 'package:test_flutter_project/resources/strings.dart';
 
 import 'models/product.dart';
 
@@ -99,4 +96,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
