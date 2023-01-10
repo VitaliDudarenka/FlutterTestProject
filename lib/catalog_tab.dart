@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_flutter_project/counter_cubit.dart';
+import 'package:test_flutter_project/blocs/counter_cubit.dart';
 import 'package:test_flutter_project/resources/dimens.dart';
 import 'package:test_flutter_project/resources/strings.dart';
 import 'package:test_flutter_project/resources/colors.dart';
