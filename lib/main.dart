@@ -6,7 +6,9 @@ import 'package:test_flutter_project/catalog_tab.dart';
 import 'package:test_flutter_project/network/university_repository.dart';
 import 'package:test_flutter_project/resources/colors.dart';
 import 'package:test_flutter_project/resources/strings.dart';
+import 'package:test_flutter_project/text_forms.dart';
 import 'package:test_flutter_project/universities_tab.dart';
+
 
 import 'models/product.dart';
 
@@ -38,8 +40,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
   static const List<Widget> _widgetOptions = <Widget>[
     UniversityListWidget(),
     CatalogWidget(),
-    Text('Sales Page',
-        style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+    TextFormWidget(),
   ];
 
   void _onItemTapped(int index) {
