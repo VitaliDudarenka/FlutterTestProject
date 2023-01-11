@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_flutter_project/catalog_tab.dart';
+import 'package:test_flutter_project/network/university_repository.dart';
 import 'package:test_flutter_project/resources/colors.dart';
 import 'package:test_flutter_project/resources/strings.dart';
+import 'package:test_flutter_project/universities_tab.dart';
 
 import 'models/product.dart';
 
@@ -14,8 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: CustomNavigationBar(),
+    return MaterialApp(
+      home: RepositoryProvider(
+        create: (context) => UniversityRepository(),
+        child: const CustomNavigationBar(),
+      ),
     );
   }
 }
@@ -30,8 +36,7 @@ class CustomNavigationBar extends StatefulWidget {
 class _CustomNavigationBarState extends State<CustomNavigationBar> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Tour Page',
-        style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+    UniversityListWidget(),
     CatalogWidget(),
     Text('Sales Page',
         style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),

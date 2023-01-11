@@ -7,4 +7,6 @@ class Strings {
   static const String reserved = "Резерв";
   static const String items = "шт.";
   static const String storagePlace = "Место хранения: ";
+  static const String enterCountry = "Введите страну";
+  static const String emptyData = "Ничего не найдено";
 }
