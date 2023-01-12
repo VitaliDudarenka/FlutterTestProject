@@ -5,6 +5,7 @@ import 'package:test_flutter_project/blocs/counter_cubit.dart';
 import 'package:test_flutter_project/resources/dimens.dart';
 import 'package:test_flutter_project/resources/strings.dart';
 import 'package:test_flutter_project/resources/colors.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'models/product.dart';
 
@@ -133,7 +134,10 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
               const Text(Strings.description,
                   style: TextStyle(fontWeight: FontWeight.w700)),
               const SizedBox(height: 8),
-              Text(product!.description),
+              AnimatedTextKit(isRepeatingAnimation: false, animatedTexts: [
+                TyperAnimatedText(product!.description,
+                    speed: const Duration(milliseconds: 100)),
+              ]),
             ],
           ),
           Column(
@@ -227,7 +231,6 @@ class CounterDataProvider extends InheritedWidget {
 }
 
 class CounterPicker extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Row(children: [
