@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_flutter_project/blocs/university/university_bloc.dart';
-import 'package:test_flutter_project/blocs/university/university_event.dart';
-import 'package:test_flutter_project/blocs/university/university_state.dart';
-import 'package:test_flutter_project/network/university_repository.dart';
+import 'package:test_flutter_project/feature/universities/domain/usecases/get_universities.dart';
+import 'package:test_flutter_project/feature/universities/presentation/bloc/university_search_bloc/university_bloc.dart';
+import 'package:test_flutter_project/feature/universities/presentation/bloc/university_search_bloc/university_event.dart';
+import 'package:test_flutter_project/feature/universities/presentation/bloc/university_search_bloc/university_state.dart';
+import 'package:test_flutter_project/feature/universities/data/repositories/university_repository_impl.dart';
 
-import 'resources/strings.dart';
+import '../../../../resources/strings.dart';
 
 class UniversityListWidget extends StatelessWidget {
   const UniversityListWidget({super.key});
@@ -14,9 +15,9 @@ class UniversityListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          UniversityBloc(RepositoryProvider.of<UniversityRepository>(context))
-            ..add(const UniversityEvent.loadUniversities(null)),
+      create: (context) => UniversityBloc(GetUniversities(
+          RepositoryProvider.of<UniversityRepositoryImpl>(context)))
+        ..add(const UniversityEvent.loadUniversities(null)),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: BlocBuilder<UniversityBloc, UniversityState>(
@@ -62,7 +63,7 @@ Widget getDataWidget(UniversityState state) {
           children: [
             const SizedBox(height: 5),
             Text(item.name),
-            Text(item.webPages.first),
+            Text(item.webPage),
             Text(item.country),
             const SizedBox(height: 10)
           ],

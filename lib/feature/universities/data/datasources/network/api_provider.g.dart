@@ -21,14 +21,14 @@ class _RestClient implements RestClient {
   String? baseUrl;
 
   @override
-  Future<List<University>> getUniversities(country) async {
+  Future<List<UniversityResponse>> getUniversities(country) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'country': country};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<University>>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<UniversityResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -41,7 +41,7 @@ class _RestClient implements RestClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = await compute(
-      deserializeUniversityList,
+      deserializeUniversityResponseList,
       _result.data!.cast<Map<String, dynamic>>(),
     );
     return value;
