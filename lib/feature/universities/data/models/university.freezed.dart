@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-University _$UniversityFromJson(Map<String, dynamic> json) {
-  return _University.fromJson(json);
+UniversityResponse _$UniversityResponseFromJson(Map<String, dynamic> json) {
+  return _UniversityResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$University {
+mixin _$UniversityResponse {
   @JsonKey(name: 'web_pages')
   List<String> get webPages => throw _privateConstructorUsedError;
   @JsonKey(name: 'state-province')
@@ -35,15 +35,15 @@ mixin _$University {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UniversityCopyWith<University> get copyWith =>
+  $UniversityResponseCopyWith<UniversityResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UniversityCopyWith<$Res> {
-  factory $UniversityCopyWith(
-          University value, $Res Function(University) then) =
-      _$UniversityCopyWithImpl<$Res, University>;
+abstract class $UniversityResponseCopyWith<$Res> {
+  factory $UniversityResponseCopyWith(
+          UniversityResponse value, $Res Function(UniversityResponse) then) =
+      _$UniversityResponseCopyWithImpl<$Res, UniversityResponse>;
   @useResult
   $Res call(
       {@JsonKey(name: 'web_pages') List<String> webPages,
@@ -55,9 +55,9 @@ abstract class $UniversityCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$UniversityCopyWithImpl<$Res, $Val extends University>
-    implements $UniversityCopyWith<$Res> {
-  _$UniversityCopyWithImpl(this._value, this._then);
+class _$UniversityResponseCopyWithImpl<$Res, $Val extends UniversityResponse>
+    implements $UniversityResponseCopyWith<$Res> {
+  _$UniversityResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -104,11 +104,11 @@ class _$UniversityCopyWithImpl<$Res, $Val extends University>
 }
 
 /// @nodoc
-abstract class _$$_UniversityCopyWith<$Res>
-    implements $UniversityCopyWith<$Res> {
-  factory _$$_UniversityCopyWith(
-          _$_University value, $Res Function(_$_University) then) =
-      __$$_UniversityCopyWithImpl<$Res>;
+abstract class _$$_UniversityResponseCopyWith<$Res>
+    implements $UniversityResponseCopyWith<$Res> {
+  factory _$$_UniversityResponseCopyWith(_$_UniversityResponse value,
+          $Res Function(_$_UniversityResponse) then) =
+      __$$_UniversityResponseCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -121,11 +121,11 @@ abstract class _$$_UniversityCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UniversityCopyWithImpl<$Res>
-    extends _$UniversityCopyWithImpl<$Res, _$_University>
-    implements _$$_UniversityCopyWith<$Res> {
-  __$$_UniversityCopyWithImpl(
-      _$_University _value, $Res Function(_$_University) _then)
+class __$$_UniversityResponseCopyWithImpl<$Res>
+    extends _$UniversityResponseCopyWithImpl<$Res, _$_UniversityResponse>
+    implements _$$_UniversityResponseCopyWith<$Res> {
+  __$$_UniversityResponseCopyWithImpl(
+      _$_UniversityResponse _value, $Res Function(_$_UniversityResponse) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -138,7 +138,7 @@ class __$$_UniversityCopyWithImpl<$Res>
     Object? country = null,
     Object? domains = null,
   }) {
-    return _then(_$_University(
+    return _then(_$_UniversityResponse(
       webPages: null == webPages
           ? _value._webPages
           : webPages // ignore: cast_nullable_to_non_nullable
@@ -169,8 +169,10 @@ class __$$_UniversityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_University with DiagnosticableTreeMixin implements _University {
-  const _$_University(
+class _$_UniversityResponse
+    with DiagnosticableTreeMixin
+    implements _UniversityResponse {
+  const _$_UniversityResponse(
       {@JsonKey(name: 'web_pages') required final List<String> webPages,
       @JsonKey(name: 'state-province') required this.stateProvince,
       @JsonKey(name: 'alpha_two_code') required this.alphaTwoCode,
@@ -180,8 +182,8 @@ class _$_University with DiagnosticableTreeMixin implements _University {
       : _webPages = webPages,
         _domains = domains;
 
-  factory _$_University.fromJson(Map<String, dynamic> json) =>
-      _$$_UniversityFromJson(json);
+  factory _$_UniversityResponse.fromJson(Map<String, dynamic> json) =>
+      _$$_UniversityResponseFromJson(json);
 
   final List<String> _webPages;
   @override
@@ -215,14 +217,14 @@ class _$_University with DiagnosticableTreeMixin implements _University {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'University(webPages: $webPages, stateProvince: $stateProvince, alphaTwoCode: $alphaTwoCode, name: $name, country: $country, domains: $domains)';
+    return 'UniversityResponse(webPages: $webPages, stateProvince: $stateProvince, alphaTwoCode: $alphaTwoCode, name: $name, country: $country, domains: $domains)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'University'))
+      ..add(DiagnosticsProperty('type', 'UniversityResponse'))
       ..add(DiagnosticsProperty('webPages', webPages))
       ..add(DiagnosticsProperty('stateProvince', stateProvince))
       ..add(DiagnosticsProperty('alphaTwoCode', alphaTwoCode))
@@ -235,7 +237,7 @@ class _$_University with DiagnosticableTreeMixin implements _University {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_University &&
+            other is _$_UniversityResponse &&
             const DeepCollectionEquality().equals(other._webPages, _webPages) &&
             (identical(other.stateProvince, stateProvince) ||
                 other.stateProvince == stateProvince) &&
@@ -260,29 +262,30 @@ class _$_University with DiagnosticableTreeMixin implements _University {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UniversityCopyWith<_$_University> get copyWith =>
-      __$$_UniversityCopyWithImpl<_$_University>(this, _$identity);
+  _$$_UniversityResponseCopyWith<_$_UniversityResponse> get copyWith =>
+      __$$_UniversityResponseCopyWithImpl<_$_UniversityResponse>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UniversityToJson(
+    return _$$_UniversityResponseToJson(
       this,
     );
   }
 }
 
-abstract class _University implements University {
-  const factory _University(
+abstract class _UniversityResponse implements UniversityResponse {
+  const factory _UniversityResponse(
           {@JsonKey(name: 'web_pages') required final List<String> webPages,
           @JsonKey(name: 'state-province') required final String? stateProvince,
           @JsonKey(name: 'alpha_two_code') required final String alphaTwoCode,
           @JsonKey(name: 'name') required final String name,
           @JsonKey(name: 'country') required final String country,
           @JsonKey(name: 'domains') required final List<String> domains}) =
-      _$_University;
+      _$_UniversityResponse;
 
-  factory _University.fromJson(Map<String, dynamic> json) =
-      _$_University.fromJson;
+  factory _UniversityResponse.fromJson(Map<String, dynamic> json) =
+      _$_UniversityResponse.fromJson;
 
   @override
   @JsonKey(name: 'web_pages')
@@ -304,6 +307,6 @@ abstract class _University implements University {
   List<String> get domains;
   @override
   @JsonKey(ignore: true)
-  _$$_UniversityCopyWith<_$_University> get copyWith =>
+  _$$_UniversityResponseCopyWith<_$_UniversityResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }

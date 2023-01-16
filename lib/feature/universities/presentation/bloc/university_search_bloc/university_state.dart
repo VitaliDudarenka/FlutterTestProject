@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:test_flutter_project/models/university.dart';
+import 'package:test_flutter_project/feature/universities/domain/entities/university.dart';
 
 part 'university_state.freezed.dart';
 

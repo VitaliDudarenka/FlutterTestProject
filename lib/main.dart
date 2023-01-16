@@ -1,14 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_flutter_project/catalog_tab.dart';
-import 'package:test_flutter_project/network/university_repository.dart';
+import 'package:test_flutter_project/feature/catalog/presentation/pages/catalog_tab.dart';
+import 'package:test_flutter_project/feature/universities/data/datasources/universities_remote_data_source.dart';
+import 'package:test_flutter_project/feature/universities/data/repositories/university_repository_impl.dart';
+import 'package:test_flutter_project/feature/universities/presentation/pages/universities_tab.dart';
 import 'package:test_flutter_project/resources/colors.dart';
 import 'package:test_flutter_project/resources/strings.dart';
-import 'package:test_flutter_project/universities_tab.dart';
-
-import 'models/product.dart';
 
 void main() => runApp(const MyApp());
 
@@ -19,7 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: RepositoryProvider(
-        create: (context) => UniversityRepository(),
+        create: (context) =>
+            UniversityRepositoryImpl(UniversityRemoteDataSourceImpl()),
         child: const CustomNavigationBar(),
       ),
     );
@@ -78,25 +76,6 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         onTap: _onItemTapped,
         elevation: 5,
         key: null,
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  final String title;
-  final Future<List<Product>> products;
-
-  const MyHomePage({super.key, required this.title, required this.products});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: const Center(
-        child: Text('Hello World'),
       ),
     );
   }
